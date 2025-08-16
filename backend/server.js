@@ -21,6 +21,7 @@ const vercelOrigin = process.env.VERCEL_URL
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3002",
+  "https://aahdc-lottery-frontend.vercel.app/",
   vercelOrigin,
   process.env.FRONTEND_ORIGIN,
   process.env.FRONTEND_ORIGIN_2,
