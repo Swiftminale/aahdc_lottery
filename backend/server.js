@@ -21,7 +21,7 @@ const vercelOrigin = process.env.VERCEL_URL
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3002",
-  "https://aahdc-lottery-frontend.vercel.app/",
+  "https://aahdc-lottery-frontend.vercel.app", // Remove the trailing slash
   vercelOrigin,
   process.env.FRONTEND_ORIGIN,
   process.env.FRONTEND_ORIGIN_2,
@@ -29,7 +29,15 @@ const allowedOrigins = [
 ].filter(Boolean);
 
 const corsOptions = {
-  origin: true, // Allow all origins
+  // Use a function to check the origin against the allowed list
+  origin: (origin, callback) => {
+    // Check if the origin is in our allowed list, or if it's undefined (for same-origin requests)
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
