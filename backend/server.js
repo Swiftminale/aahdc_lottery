@@ -31,10 +31,15 @@ const allowedOrigins = [
 const corsOptions = {
   // Use a function to check the origin against the allowed list
   origin: (origin, callback) => {
+    // Debug logging for CORS
+    console.log("CORS check: incoming origin:", origin);
+    console.log("CORS check: allowedOrigins:", allowedOrigins);
     // Check if the origin is in our allowed list, or if it's undefined (for same-origin requests)
     if (allowedOrigins.includes(origin) || !origin) {
+      console.log("CORS allowed:", origin);
       callback(null, true);
     } else {
+      console.log("CORS blocked:", origin);
       callback(new Error("Not allowed by CORS"));
     }
   },
