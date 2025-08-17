@@ -39,7 +39,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use("/api/auth/login", authRoutes);
+app.use("/api/auth", authRoutes);
 // Routes
 app.use("/api/units", /*auth("developer"),*/ unitRoutes);
 app.use("/api/allocation", /*auth("admin"),*/ allocationRoutes);
