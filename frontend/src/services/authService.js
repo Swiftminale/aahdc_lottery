@@ -1,20 +1,30 @@
 const API_BASE = process.env.REACT_APP_API_BASE_URL || ""; // e.g., https://your-backend.vercel.app
 const API_URL = `${API_BASE}/api/auth`;
 
-export async function login(username, password) {
-  const res = await fetch(`${API_URL}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.message || "Login failed");
+export async function login(credentials) {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/api/auth/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+        credentials: "include",
+      }
+    );
+    if (!response.ok) {
+      console.error(
+        "CORS or network error:",
+        response.status,
+        response.statusText
+      );
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("CORS/network error:", error);
+    throw error;
   }
-  const data = await res.json();
-  localStorage.setItem("token", data.token);
-  localStorage.setItem("user", JSON.stringify(data.user));
-  return data;
 }
 
 export function logout() {
